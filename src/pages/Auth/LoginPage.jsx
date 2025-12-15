@@ -69,7 +69,7 @@ const LoginPage = () => {
                     />
 
                     <div className="actions">
-                        <Button content={loading ? "Logging in" : "Login"} type="contained" isDisabled={loading}/>
+                        <Button content={loading ? "Logging in" : "Login"} buttonType="contained" isDisabled={loading}/>
 
                         <div className="links">
                             <NavLink to={'/forgot-password'}>

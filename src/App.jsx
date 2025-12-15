@@ -34,7 +34,7 @@ const App = () => {
                 <Route path="/" element={<ProtectedRoute />}>
                     <Route element={<RootLayout />}>
                         <Route index element={<DashboardPage />} />
-                        <Route path="tasks" element={<RootLayout />} >
+                        <Route path="task">
                             <Route index element={<TaskListPage />} />
                             <Route path="edit/:id" element={<TaskFormPage />} />
                             <Route path="add/" element={<TaskFormPage />} />

@@ -6,6 +6,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [userId , setUserId] = useState(null);
 
     const login = (token) => {
         localStorage.setItem("token", token);
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
             const currentTime = Date.now() / 1000;
 
             if (decoded.exp && decoded.exp > currentTime) {
+                setUserId(decoded.id);
                 setIsAuthenticated(true);
             } else {
                 logout();
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ isAuthenticated, isLoading, login, logout }}
+            value={{ isAuthenticated, isLoading, login, logout, userId }}
         >
             {children}
         </AuthContext.Provider>

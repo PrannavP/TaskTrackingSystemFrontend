@@ -22,7 +22,7 @@ const sizeMap = {
 const Button = ({
     color = 'primary',
     size = 'md',
-    type = 'contained',
+    buttonType = 'contained',
     onClick,
     content = 'Click Me',
     isDisabled = false,
@@ -50,15 +50,15 @@ const Button = ({
 
     let style = { ...baseStyle };
 
-    if (type === 'contained') {
+    if (buttonType === 'contained') {
         style.background = isDisabled ? resolvedDisabled : resolvedColor;
         style.color = '#fff';
         style.border = 'none';
-    } else if (type === 'outlined') {
+    } else if (buttonType === 'outlined') {
         style.background = 'transparent';
         style.color = isDisabled ? resolvedDisabled : resolvedColor;
         style.border = `1px solid ${isDisabled ? resolvedDisabled : resolvedColor}`;
-    } else if (type === 'text') {
+    } else if (buttonType === 'text') {
         style.background = 'transparent';
         style.color = isDisabled ? resolvedDisabled : resolvedColor;
         style.border = 'none';

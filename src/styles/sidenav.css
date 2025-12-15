@@ -1,0 +1,82 @@
+.sidenav {
+  width: 220px;
+  box-sizing: border-box;
+  padding: 16px;
+  border-right: 1px solid rgba(46,125,50,0.08);
+  min-height: 99vh;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f8f3 100%);
+}
+
+.side-nav-title {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2e7d32;
+  letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0 12px 0;
+  border-bottom: 1px solid rgba(46,125,50,0.06);
+  text-align: center;
+}
+
+.sidenav nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidenav nav li {
+  margin: 8px 0;
+}
+
+/* Single, authoritative rule for links (flex layout for icon + text) */
+.sidenav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: #616161;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: capitalize;
+  transition: background .15s, color .15s, box-shadow .15s;
+}
+
+/* Make sure SVG icons keep their size and align correctly */
+.sidenav-link svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: block;
+  color: inherit;
+}
+
+/* Ensure icon strokes follow text color when possible */
+.sidenav-link svg path,
+.sidenav-link svg circle,
+.sidenav-link svg line,
+.sidenav-link svg rect {
+  stroke: currentColor;
+}
+
+/* Text alignment / vertical centering */
+.sidenav-text {
+  line-height: 1;
+}
+
+/* Hover / active states */
+.sidenav-link:hover {
+  background: rgba(46,125,50,0.05);
+  color: rgba(30,70,32,0.95);
+}
+
+.sidenav-link.active {
+  color: #2e7d32;
+  font-weight: 600;
+  background: rgba(46,125,50,0.08);
+  box-shadow: inset 4px 0 0 #2e7d32;
+}

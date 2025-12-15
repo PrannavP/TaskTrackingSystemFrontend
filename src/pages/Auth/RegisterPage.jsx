@@ -73,7 +73,7 @@ const RegisterPage = () => {
                     />
 
                     <div className="actions">
-                        <Button content={loading ? "Creating account..." : "Create account"} type="contained" isDisabled={loading}/>
+                        <Button content={loading ? "Creating account..." : "Create account"} buttonType="contained" isDisabled={loading}/>
 
                         <div className="links">
                             <NavLink to={'/login'}>
