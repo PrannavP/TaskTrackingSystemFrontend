@@ -36,8 +36,8 @@ const App = () => {
                         <Route index element={<DashboardPage />} />
                         <Route path="task">
                             <Route index element={<TaskListPage />} />
-                            <Route path="edit/:id" element={<TaskFormPage />} />
-                            <Route path="add/" element={<TaskFormPage />} />
+                            <Route path="edit/:id" element={<TaskFormPage isEdit={true} />} />
+                            <Route path="add/" element={<TaskFormPage isEdit={false} />} />
                             <Route path="view/:id" element={<TaskViewPage />} />
                         </Route>
                         <Route path="profile" element={<ProfilePage />} />
