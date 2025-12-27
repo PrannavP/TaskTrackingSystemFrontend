@@ -21,6 +21,10 @@ const TaskFormPage = ({ isEdit = false }) => {
     const [type, setType] = useState([]);
     const [branchName, setBranchName] = useState("");
     const [changesType, setChangesType] = useState([]);
+    const [isCompleted, setIsCompleted] = useState(null);
+    const [isMerged, setIsMerged] = useState(null);
+    const [isPublished, setIsPublished] = useState(null);
+    const [publishedZipFileLink, setPublishedZipFileLink] = useState(null);
     const [description, setDescription] = useState("");
     const [prefillLoading, setPrefillLoading] = useState(false);
 
@@ -47,12 +51,17 @@ const TaskFormPage = ({ isEdit = false }) => {
     useEffect(() => {
         const fetchTask = async () => {
             if (!isEdit) return;
+
             if (!routeTaskId || !userId) return;
+
             setPrefillLoading(true);
+
             try {
                 const res = await authFetch(`/task/get/${routeTaskId}/${userId}`, { method: 'GET' }, toast);
+
                 if (res?.success && res?.data) {
                     const d = res.data;
+
                     setTaskName(d.task_name || "");
                     setTaskNumber(arrayToCsv(d.task_number));
                     setBugNumber(arrayToCsv(d.bug_number));
@@ -82,6 +91,10 @@ const TaskFormPage = ({ isEdit = false }) => {
         setBranchName("");
         setChangesType([]);
         setDescription("");
+        setIsMerged([]);
+        setIsCompleted([]);
+        setIsPublished([]);
+        setPublishedZipFileLink("");
         firstElemRef.current.focus();
     };
 
@@ -119,6 +132,10 @@ const TaskFormPage = ({ isEdit = false }) => {
             type,
             branch_name: parsedBranchNames.length ? parsedBranchNames : null,
             changes_type: changesType,
+            isMerged: isMerged,
+            isCompleted: isCompleted,
+            isPublished: isPublished,
+            publishedZipLink: publishedZipFileLink,
             description: description || null
         };
 
@@ -236,6 +253,59 @@ const TaskFormPage = ({ isEdit = false }) => {
                                 isMulti={true}
                             />
                         </div>
+
+                        <div>
+                            <label style={{ display: 'block', marginBottom: 6, color: '#334155', fontSize: 13 }}>Is Completed <span style={{ color: 'red' }}>*</span></label>
+                            <Select
+                                options={["YES", "NO"]}
+                                value={isCompleted}
+                                onChange={(val) => setIsCompleted(val || "")}
+                                placeholder="Select is completed status"
+                                isClearable={false}
+                                isMulti={false}
+                            />
+                        </div>
+
+                        <div>
+                            <label style={{ display: 'block', marginBottom: 6, color: '#334155', fontSize: 13 }}>Is Merged <span style={{ color: 'red' }}>*</span></label>
+                            <Select
+                                options={["YES", "NO"]}
+                                value={isMerged}
+                                onChange={(val) => setIsMerged(val || "")}
+                                placeholder="Select is merged status"
+                                isClearable={false}
+                                isMulti={false}
+                            />
+                        </div>
+
+                        <div>
+                            <label style={{ display: 'block', marginBottom: 6, color: '#334155', fontSize: 13 }}>
+                                Is Published <span style={{ color: 'red' }}>*</span>
+                            </label>
+                            <Select
+                                options={["YES", "NO"]}
+                                value={isPublished}
+                                onChange={(val) => setIsPublished(val || "")}
+                                placeholder="Select is published status"
+                                isClearable={false}
+                                isMulti={false}
+                            />
+                        </div>
+
+                        {/* Conditionally display the Published File Link field */}
+                        {isPublished === "YES" && (
+                            <div style={{ gridColumn: '1 / -1' }}>
+                                <InputField
+                                    type="text"
+                                    value={publishedZipFileLink}
+                                    onChange={(e) => setPublishedZipFileLink(e.target.value)}
+                                    isRequired={true}
+                                    labelTxt="Published File Link"
+                                    validationMessage="Published file link is required."
+                                    placeholder="e.g. 30333_FOEnchancement_PUBLISH.zip"
+                                />
+                            </div>
+                        )}
 
                         <div style={{ gridColumn: '1 / -1' }}>
                             <label style={{ display: 'block', marginBottom: 6, color: '#334155', fontSize: 13 }}>Description</label>
