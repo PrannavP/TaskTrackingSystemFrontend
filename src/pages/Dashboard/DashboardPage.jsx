@@ -6,39 +6,46 @@ import MetricsCard from "../../components/dashboard/MetricsCard";
 import Spinner from "../../components/Spinner";
 
 const DashboardPage = () => {
-    const { userId } = useAuth();
+    const { userId, isLoading: authLoading } = useAuth();
     const [metrics, setMetrics] = useState(null);
     const { authFetch, loading } = useAuthFetch();
 
-    // get the dashboard metrics when component mounts
     useEffect(() => {
-        fetchDashboardMetrics(userId);
-    }, [userId]);
+        if (!authLoading && userId) {
+            fetchDashboardMetrics(userId);
+        }
+    }, [authLoading, userId]);
 
-    // function to fetch dashboard metrics
     const fetchDashboardMetrics = async (user_id) => {
-        try{
-            const response = await authFetch(`/dashboard/getDashboardMetrics/${user_id}`, {
-                method: "GET"
-            }, toast);
+        try {
+            const response = await authFetch(
+                `/dashboard/getDashboardMetrics/${user_id}`,
+                { method: "GET" },
+                toast
+            );
 
-            const data = response?.data || response || {};
-            setMetrics(data);
-        }catch(err){
+            setMetrics(response?.data ?? {});
+        } catch (err) {
             console.error("Error while fetching dashboard metrics.", err);
         }
     };
 
-    return(
+    if (authLoading) {
+        return (
+            <div style={{ display: "flex", justifyContent: "center", minHeight: "60vh" }}>
+                <Spinner />
+            </div>
+        );
+    }
+
+    return (
         <div>
-            {loading && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+            {loading ? (
+                <div style={{ display: "flex", justifyContent: "center", minHeight: "60vh" }}>
                     <Spinner />
                 </div>
-            )}
-
-            {!loading && (
-                <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', marginTop: 18, marginLeft: 40 }}>
+            ) : (
+                <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginTop: 18, marginLeft: 40 }}>
                     <MetricsCard title="Tasks Completed This Month" count={metrics?.tasksCompletedThisMonth ?? 0} />
                     <MetricsCard title="Not Merged" count={metrics?.notMergedCount ?? 0} />
                     <MetricsCard title="Completed Bugs" count={metrics?.completedBugCount ?? 0} />

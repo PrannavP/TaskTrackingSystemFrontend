@@ -10,6 +10,10 @@ export const AuthProvider = ({ children }) => {
 
     const login = (token) => {
         localStorage.setItem("token", token);
+
+        const decoded = jwtDecode(token);
+        setUserId(decoded.id);
+
         setIsAuthenticated(true);
     };
 
